@@ -1,0 +1,59 @@
+<div
+  class="container"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="onScroll()"
+>
+  <div class="header">
+    <h3 class="header__title">Search @ Twitter</h3>
+    <span class="header__auto-refresh"
+      >Auto refresh in {{ currCount }} seconds</span
+    >
+  </div>
+
+  <div class="search-box">
+    <input
+      type="text"
+      class="search-box__input form-control"
+      [(ngModel)]="statusKey"
+    />
+    <button
+      type="button"
+      class="btn btn-primary search-box__search"
+      (click)="onClickSerchButton()"
+    >
+      Search
+    </button>
+  </div>
+
+  <div class="main-container" *ngIf="allUsers">
+    <div class="card-container" *ngFor="let status of allUsers.statuses">
+      <div class="card">
+        <div class="card-body">
+          <div class="profile-pic">
+            <img [src]="status.user.profile_image_url" alt="PI" />
+          </div>
+          <div class="profile-details">
+            <div class="user-details">
+              <span class="name">{{ status.user.name }}</span>
+              <span class="screen-name">@{{ status.user.screen_name }}</span>
+              <span class="Date">{{ status.user.created_at }}</span>
+            </div>
+            <div class="description">
+              <span>
+                {{
+                  status.text + ': ' + (status.user.url ? status.user.url : '')
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!allUsers">
+    No Status.
+  </div>
+</div>
